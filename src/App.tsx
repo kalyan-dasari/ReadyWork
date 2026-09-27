@@ -93,7 +93,7 @@ export default function App() {
         existingSubmission={userSubmission}
       />
 
-      {/* Submission Review & Referral Drawer */}
+      {/* Submission Review Drawer */}
       <SubmissionDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}

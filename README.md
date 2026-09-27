@@ -1,6 +1,6 @@
 # Are You Ready To Work?
 
-Are You Ready To Work? is a student-focused application experience for identifying students who are ready for real-world work experience. It explains the selection criteria, collects work interests and readiness information, and gives applicants a shareable referral link after submission.
+Are You Ready To Work? is a student-focused application experience for identifying students who are ready for real-world work experience. It explains the selection criteria, collects work interests and readiness information, and gives applicants one shareable site link after registration.
 
 ## Features
 
@@ -8,7 +8,7 @@ Are You Ready To Work? is a student-focused application experience for identifyi
 - Multi-step application flow for work interests and readiness
 - Client-side application tracking with `localStorage`
 - One registration per browser device
-- Generic site sharing without individual referral links
+- Generic site sharing without individual tracking links
 - Lightweight analytics events for page views, registrations, and sharing
 
 ## Requirements
