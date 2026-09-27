@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Share2, Copy, Check } from 'lucide-react';
 import { dataService } from '../services/dataService';
 
+const PUBLIC_APP_URL = 'https://studentafterclass.netlify.app/';
+
 const WhatsAppIcon: React.FC<{ className?: string }> = ({ className }) => (
   <svg viewBox="0 0 32 32" aria-hidden="true" className={className}>
     <circle cx="16" cy="16" r="15" fill="#25D366" />
@@ -16,8 +18,7 @@ export const ShareCard: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [shared, setShared] = useState(false);
 
-  const origin = typeof window !== 'undefined' ? window.location.origin : '';
-  const shareUrl = `${origin}/`;
+  const shareUrl = PUBLIC_APP_URL;
 
   const shareTitle = 'ARE YOU READY TO WORK?';
   const shareText = `Are you actually ready to work?\nI just applied for a student work-experience opportunity.\nYou should check it out:`;
