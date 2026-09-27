@@ -1,6 +1,6 @@
 import React from 'react';
 import { ApplicationRecord } from '../types';
-import { X, CheckCircle, RotateCcw } from 'lucide-react';
+import { X, CheckCircle } from 'lucide-react';
 import { ShareCard } from './ShareCard';
 
 interface SubmissionDrawerProps {

@@ -6,9 +6,10 @@ Are You Ready To Work? is a student-focused application experience for identifyi
 
 - Responsive landing page with value proposition, selection criteria, FAQ, and calls to action
 - Multi-step application flow for work interests and readiness
-- Client-side application and referral tracking with `localStorage`
-- Submission review drawer and demo reset control
-- Lightweight analytics events for page views, applications, referrals, and sharing
+- Client-side application tracking with `localStorage`
+- One registration per browser device
+- Generic site sharing without individual referral links
+- Lightweight analytics events for page views, registrations, and sharing
 
 ## Requirements
 
@@ -43,4 +44,4 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Data and Privacy
 
-Applications, the interest count offset, and referral statistics are stored in the current browser's `localStorage`. This is suitable for demos and prototypes, not production data collection. Use the reset action in the submission drawer to clear the current browser session.
+Applications and the registration count are stored in the current browser's `localStorage`. One browser device can register once. This is suitable for demos and prototypes, not production data collection; a shared count across all students still requires a backend database.

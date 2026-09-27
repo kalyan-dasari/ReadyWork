@@ -1,6 +1,6 @@
 import React from 'react';
-import { ApplicationRecord } from '../types';
 import { CheckCircle, ArrowRight } from 'lucide-react';
+import { ShareCard } from './ShareCard';
 import { InterestCounter } from './InterestCounter';
 
 interface SuccessScreenProps {
@@ -43,6 +43,8 @@ export const SuccessScreen: React.FC<SuccessScreenProps> = ({
           We review each application on a rolling basis. Because projects involve real team deliverables, we select a limited number of students per intake to ensure genuine mentorship and project ownership.
         </p>
       </div>
+
+      <ShareCard />
 
       {/* Bottom Dismiss / Review CTA */}
       <div className="pt-2">
