@@ -178,12 +178,6 @@ export const ReadinessStep: React.FC<ReadinessStepProps> = ({
         Applications will be reviewed and a limited number of students will be selected.
       </p>
 
-      {error && (
-        <p role="alert" className="rounded-lg border border-red-200 bg-red-50 p-3 text-xs font-medium text-red-700">
-          {error}
-        </p>
-      )}
-
       {/* Form Action Controls */}
       <div className="flex items-center gap-3 pt-2">
         <button
@@ -214,6 +208,12 @@ export const ReadinessStep: React.FC<ReadinessStepProps> = ({
           )}
         </button>
       </div>
+
+      {error && (
+        <p role="alert" className="rounded-lg border border-red-200 bg-red-50 p-3 text-xs font-medium text-red-700">
+          {error}
+        </p>
+      )}
     </form>
   );
 };
