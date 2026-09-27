@@ -12,10 +12,14 @@ export const BASE_INTEREST_COUNT = 1284;
 const STORAGE_KEYS = {
   APPLICATIONS: 'ayrtw_applications_v1',
   USER_SUBMISSION: 'ayrtw_user_submission_v1',
+  DEVICE_ID: 'ayrtw_device_id_v1',
 };
+
+const REGISTRATIONS_ENDPOINT = '/.netlify/functions/registrations';
 
 class DataService {
   private listeners: (() => void)[] = [];
+  private serverCount: number | null = null;
 
   constructor() {
     if (typeof window !== 'undefined') {
@@ -49,6 +53,7 @@ class DataService {
     if (typeof window === 'undefined') return BASE_INTEREST_COUNT;
 
     try {
+      if (this.serverCount !== null) return this.serverCount;
       const storedApps = this.getAllApplications();
       return BASE_INTEREST_COUNT + storedApps.length;
     } catch {
@@ -83,10 +88,35 @@ class DataService {
         };
       }
 
-      const existing = this.getAllApplications();
-      existing.unshift(record);
-      localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(existing));
-      localStorage.setItem(STORAGE_KEYS.USER_SUBMISSION, JSON.stringify(record));
+      const deviceId = this.getDeviceId();
+      let savedRecord = record;
+      let count = this.getInterestCount();
+
+      try {
+        const response = await fetch(REGISTRATIONS_ENDPOINT, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ deviceId, formData }),
+        });
+
+        if (!response.ok) throw new Error('Registration API request failed.');
+
+        const result = (await response.json()) as {
+          record: ApplicationRecord;
+          count: number;
+        };
+        savedRecord = result.record;
+        count = result.count;
+        this.serverCount = result.count;
+      } catch (error) {
+        if (!import.meta.env.DEV) throw error;
+
+        const existing = this.getAllApplications();
+        existing.unshift(record);
+        localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(existing));
+      }
+
+      localStorage.setItem(STORAGE_KEYS.USER_SUBMISSION, JSON.stringify(savedRecord));
 
       analytics.track('application_submitted', {
         id,
@@ -98,8 +128,8 @@ class DataService {
 
       return {
         success: true,
-        record,
-        count: this.getInterestCount(),
+        record: savedRecord,
+        count,
       };
     } catch (e) {
       console.error('Failed to submit application', e);
@@ -125,6 +155,29 @@ class DataService {
     } catch {
       return [];
     }
+  }
+
+  public async refreshInterestCount(): Promise<void> {
+    try {
+      const response = await fetch(REGISTRATIONS_ENDPOINT);
+      if (!response.ok) throw new Error('Count API request failed.');
+      const result = (await response.json()) as { count: number };
+      this.serverCount = result.count;
+      this.notify();
+    } catch (error) {
+      if (!import.meta.env.DEV) {
+        console.warn('Unable to load shared registration count', error);
+      }
+    }
+  }
+
+  private getDeviceId(): string {
+    const existing = localStorage.getItem(STORAGE_KEYS.DEVICE_ID);
+    if (existing) return existing;
+
+    const deviceId = crypto.randomUUID();
+    localStorage.setItem(STORAGE_KEYS.DEVICE_ID, deviceId);
+    return deviceId;
   }
 
   public trackShare(platform: string): void {

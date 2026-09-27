@@ -26,6 +26,8 @@ export default function App() {
   );
 
   useEffect(() => {
+    void dataService.refreshInterestCount();
+
     analytics.track('page_view', {
       path: window.location.pathname,
     });
