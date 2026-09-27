@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #141413;
+    background-color: #FAFAF9;
+    letter-spacing: -0.012em;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Tabular numbers for live interest counter and metrics */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom focus ring that is sharp and elegant */
+input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible {
+  outline: 2px solid #141413;
+  outline-offset: 2px;
+}
