@@ -135,7 +135,7 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 20, scale: 0.98 }}
         transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-        className="relative w-full max-w-xl bg-white sm:rounded-2xl rounded-t-2xl shadow-2xl border border-neutral-200 overflow-hidden max-h-[92vh] flex flex-col z-10"
+        className="relative w-full max-w-xl bg-white sm:rounded-2xl rounded-t-2xl shadow-2xl border border-neutral-200 overflow-hidden max-h-[calc(100dvh-0.5rem)] sm:max-h-[92vh] flex flex-col z-10"
       >
         {/* Top Header / Progress Indicator */}
         <div className="px-5 sm:px-6 pt-5 pb-3 border-b border-neutral-100 flex items-center justify-between">
@@ -179,7 +179,7 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
         )}
 
         {/* Scrollable Form Body */}
-        <div className="p-5 sm:p-6 overflow-y-auto flex-1 overscroll-contain">
+        <div className="px-4 py-5 sm:p-6 overflow-y-auto flex-1 overscroll-contain [padding-bottom:calc(1.25rem+env(safe-area-inset-bottom))]">
           <AnimatePresence mode="wait">
             {step === 1 && (
               <motion.div

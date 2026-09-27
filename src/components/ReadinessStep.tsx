@@ -112,7 +112,7 @@ export const ReadinessStep: React.FC<ReadinessStepProps> = ({
                 >
                   {tier.level}
                 </div>
-                <span className="text-[11px] sm:text-xs font-semibold leading-tight line-clamp-1">
+                <span className="text-[10px] sm:text-xs font-semibold leading-tight line-clamp-2">
                   {tier.title}
                 </span>
               </button>
@@ -135,9 +135,9 @@ export const ReadinessStep: React.FC<ReadinessStepProps> = ({
                   : 'border-neutral-200 bg-white hover:border-neutral-300 hover:bg-neutral-50/50'
               }`}
             >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
+              <div className="flex min-w-0 items-start justify-between gap-3">
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                     <span className="text-xs font-mono font-semibold text-neutral-400">
                       0{tier.level}
                     </span>
@@ -145,7 +145,7 @@ export const ReadinessStep: React.FC<ReadinessStepProps> = ({
                       {tier.title}
                     </h3>
                     <span className="text-xs text-neutral-400">·</span>
-                    <span className="text-xs font-medium text-neutral-500">
+                    <span className="text-xs font-medium text-neutral-500 break-words">
                       {tier.commitment}
                     </span>
                   </div>

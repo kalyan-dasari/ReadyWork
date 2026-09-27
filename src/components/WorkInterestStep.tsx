@@ -119,13 +119,13 @@ export const WorkInterestStep: React.FC<WorkInterestStepProps> = ({
                 type="button"
                 key={track}
                 onClick={() => toggleTrack(track)}
-                className={`flex items-center justify-between px-3.5 py-3 rounded-lg border text-sm font-medium transition-all text-left cursor-pointer min-h-[44px] ${
+                className={`flex min-w-0 items-center justify-between gap-2 px-3.5 py-3 rounded-lg border text-sm font-medium transition-all text-left cursor-pointer min-h-[44px] ${
                   isSelected
                     ? 'border-[#141413] bg-[#141413] text-white shadow-sm'
                     : 'border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300 hover:bg-neutral-50'
                 }`}
               >
-                <span>{track}</span>
+                <span className="min-w-0 break-words">{track}</span>
                 {isSelected && <Check className="w-4 h-4 shrink-0 ml-2" />}
               </button>
             );
@@ -158,13 +158,13 @@ export const WorkInterestStep: React.FC<WorkInterestStepProps> = ({
                 type="button"
                 key={goal}
                 onClick={() => toggleGoal(goal)}
-                className={`flex items-center justify-between px-3.5 py-3 rounded-lg border text-sm font-medium transition-all text-left cursor-pointer min-h-[44px] ${
+                className={`flex min-w-0 items-center justify-between gap-2 px-3.5 py-3 rounded-lg border text-sm font-medium transition-all text-left cursor-pointer min-h-[44px] ${
                   isSelected
                     ? 'border-[#141413] bg-[#141413] text-white shadow-sm'
                     : 'border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300 hover:bg-neutral-50'
                 }`}
               >
-                <span>{goal}</span>
+                <span className="min-w-0 break-words">{goal}</span>
                 {isSelected && <Check className="w-4 h-4 shrink-0 ml-2" />}
               </button>
             );
