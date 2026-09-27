@@ -67,9 +67,6 @@ class DataService {
   public async submitApplication(
     formData: ApplicationFormData
   ): Promise<{ success: boolean; record: ApplicationRecord; count: number }> {
-    // Simulate brief network latency for authentic UI feedback
-    await new Promise((resolve) => setTimeout(resolve, 550));
-
     const id = 'app_' + Math.random().toString(36).substring(2, 9);
 
     const record: ApplicationRecord = {
@@ -93,11 +90,15 @@ class DataService {
       let count = this.getInterestCount();
 
       try {
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 12000);
         const response = await fetch(REGISTRATIONS_ENDPOINT, {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({ deviceId, formData }),
+          signal: controller.signal,
         });
+        window.clearTimeout(timeout);
 
         if (!response.ok) throw new Error('Registration API request failed.');
 

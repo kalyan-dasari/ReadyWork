@@ -22,6 +22,7 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
 }) => {
   const [step, setStep] = useState<1 | 2 | 3 | 4>(existingSubmission ? 4 : 1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [submittedRecord, setSubmittedRecord] = useState<ApplicationRecord | null>(
     existingSubmission || null
   );
@@ -85,6 +86,7 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
 
   const handleStep3Submit = async (readinessLevel: ReadinessLevel) => {
     setIsSubmitting(true);
+    setSubmitError(null);
     const completePayload: ApplicationFormData = {
       fullName: formData.fullName || '',
       email: formData.email || '',
@@ -108,6 +110,9 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
       analytics.track('application_step_completed', { step: 3 });
     } catch (e) {
       console.error('Failed to submit application', e);
+      setSubmitError(
+        'We could not save your registration right now. Please check your connection and try again.'
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -225,6 +230,7 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
                   onBack={() => setStep(2)}
                   onSubmit={handleStep3Submit}
                   isSubmitting={isSubmitting}
+                  error={submitError}
                 />
               </motion.div>
             )}

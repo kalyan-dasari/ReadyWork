@@ -8,6 +8,7 @@ interface ReadinessStepProps {
   onBack: () => void;
   onSubmit: (level: ReadinessLevel) => void;
   isSubmitting: boolean;
+  error?: string | null;
 }
 
 interface TierDefinition {
@@ -59,6 +60,7 @@ export const ReadinessStep: React.FC<ReadinessStepProps> = ({
   onBack,
   onSubmit,
   isSubmitting,
+  error,
 }) => {
   const [selectedLevel, setSelectedLevel] = useState<ReadinessLevel>(initialLevel);
 
@@ -175,6 +177,12 @@ export const ReadinessStep: React.FC<ReadinessStepProps> = ({
       <p className="text-xs text-neutral-400 text-center">
         Applications will be reviewed and a limited number of students will be selected.
       </p>
+
+      {error && (
+        <p role="alert" className="rounded-lg border border-red-200 bg-red-50 p-3 text-xs font-medium text-red-700">
+          {error}
+        </p>
+      )}
 
       {/* Form Action Controls */}
       <div className="flex items-center gap-3 pt-2">
