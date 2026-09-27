@@ -1,4 +1,4 @@
-import { ApplicationFormData, ApplicationRecord, ReferralStats } from '../types';
+import { ApplicationFormData, ApplicationRecord } from '../types';
 import { analytics } from './analytics';
 
 /**
@@ -12,8 +12,6 @@ export const BASE_INTEREST_COUNT = 1284;
 const STORAGE_KEYS = {
   APPLICATIONS: 'ayrtw_applications_v1',
   USER_SUBMISSION: 'ayrtw_user_submission_v1',
-  REFERRALS: 'ayrtw_referral_stats_v1',
-  BASE_OFFSET: 'ayrtw_interest_offset_v1',
 };
 
 class DataService {
@@ -52,8 +50,7 @@ class DataService {
 
     try {
       const storedApps = this.getAllApplications();
-      const offset = parseInt(localStorage.getItem(STORAGE_KEYS.BASE_OFFSET) || '0', 10);
-      return BASE_INTEREST_COUNT + storedApps.length + offset;
+      return BASE_INTEREST_COUNT + storedApps.length;
     } catch {
       return BASE_INTEREST_COUNT;
     }
@@ -69,41 +66,32 @@ class DataService {
     await new Promise((resolve) => setTimeout(resolve, 550));
 
     const id = 'app_' + Math.random().toString(36).substring(2, 9);
-    // Generate clean, shareable referral code
-    const cleanName = formData.fullName
-      .trim()
-      .split(' ')[0]
-      .toLowerCase()
-      .replace(/[^a-z0-9]/g, '') || 'student';
-    const userReferralCode = `${cleanName}-${Math.random().toString(36).substring(2, 6)}`;
 
     const record: ApplicationRecord = {
       ...formData,
       id,
       submittedAt: new Date().toISOString(),
-      userReferralCode,
     };
 
     try {
+      const existingSubmission = this.getCurrentUserSubmission();
+      if (existingSubmission) {
+        return {
+          success: true,
+          record: existingSubmission,
+          count: this.getInterestCount(),
+        };
+      }
+
       const existing = this.getAllApplications();
       existing.unshift(record);
       localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(existing));
       localStorage.setItem(STORAGE_KEYS.USER_SUBMISSION, JSON.stringify(record));
 
-      // If submitted via someone's referral code, track conversion
-      if (formData.referralCode) {
-        this.recordReferralConversion(formData.referralCode);
-        analytics.track('referral_application', {
-          referrer: formData.referralCode,
-          newApplicantId: id,
-        });
-      }
-
       analytics.track('application_submitted', {
         id,
         trackCount: formData.workInterests.length,
         readiness: formData.readinessLevel,
-        referralCode: formData.referralCode,
       });
 
       this.notify();
@@ -139,69 +127,12 @@ class DataService {
     }
   }
 
-  public trackReferralVisit(refCode: string): void {
-    if (!refCode || typeof window === 'undefined') return;
-    try {
-      const stats = this.getAllReferralStats();
-      const current = stats[refCode] || { code: refCode, visits: 0, applications: 0 };
-      current.visits += 1;
-      stats[refCode] = current;
-      localStorage.setItem(STORAGE_KEYS.REFERRALS, JSON.stringify(stats));
-
-      analytics.track('referral_visit', { referralCode: refCode });
-      this.notify();
-    } catch (e) {
-      console.warn('Failed tracking referral visit', e);
-    }
+  public trackShare(platform: string): void {
+    analytics.track('share_clicked', { platform });
   }
 
-  private recordReferralConversion(refCode: string): void {
-    if (!refCode || typeof window === 'undefined') return;
-    try {
-      const stats = this.getAllReferralStats();
-      const current = stats[refCode] || { code: refCode, visits: 1, applications: 0 };
-      current.applications += 1;
-      stats[refCode] = current;
-      localStorage.setItem(STORAGE_KEYS.REFERRALS, JSON.stringify(stats));
-      this.notify();
-    } catch (e) {
-      console.warn('Failed recording referral conversion', e);
-    }
-  }
-
-  public getReferralStats(refCode: string): ReferralStats {
-    if (!refCode || typeof window === 'undefined') {
-      return { code: refCode, visits: 0, applications: 0 };
-    }
-    const stats = this.getAllReferralStats();
-    return stats[refCode] || { code: refCode, visits: 0, applications: 0 };
-  }
-
-  private getAllReferralStats(): Record<string, ReferralStats> {
-    if (typeof window === 'undefined') return {};
-    try {
-      const saved = localStorage.getItem(STORAGE_KEYS.REFERRALS);
-      return saved ? JSON.parse(saved) : {};
-    } catch {
-      return {};
-    }
-  }
-
-  public trackShare(platform: string, refCode: string): void {
-    analytics.track('share_clicked', { platform, refCode });
-  }
-
-  public trackLinkCopied(refCode: string): void {
-    analytics.track('link_copied', { refCode });
-  }
-
-  /**
-   * Helper to clear user session for testing/demo
-   */
-  public resetUserSession(): void {
-    if (typeof window === 'undefined') return;
-    localStorage.removeItem(STORAGE_KEYS.USER_SUBMISSION);
-    this.notify();
+  public trackLinkCopied(): void {
+    analytics.track('link_copied');
   }
 }
 

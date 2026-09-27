@@ -41,13 +41,11 @@ export interface ApplicationFormData {
   experienceGoals: ExperienceGoal[];
   otherExperienceGoal?: string;
   readinessLevel: ReadinessLevel;
-  referralCode?: string;
 }
 
 export interface ApplicationRecord extends ApplicationFormData {
   id: string;
   submittedAt: string;
-  userReferralCode: string;
 }
 
 export interface AnalyticsEvent {
@@ -58,15 +56,8 @@ export interface AnalyticsEvent {
     | 'application_step_completed'
     | 'application_submitted'
     | 'share_clicked'
-    | 'link_copied'
-    | 'referral_visit'
-    | 'referral_application';
+    | 'link_copied';
   timestamp: number;
   properties?: Record<string, unknown>;
 }
 
-export interface ReferralStats {
-  code: string;
-  visits: number;
-  applications: number;
-}
