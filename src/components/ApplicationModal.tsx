@@ -237,7 +237,6 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
                 transition={{ duration: 0.25 }}
               >
                 <SuccessScreen
-                  record={submittedRecord}
                   currentCount={currentCount}
                   onClose={onClose}
                 />

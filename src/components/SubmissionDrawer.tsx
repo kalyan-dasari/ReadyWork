@@ -2,20 +2,17 @@ import React from 'react';
 import { ApplicationRecord } from '../types';
 import { X, CheckCircle, RotateCcw } from 'lucide-react';
 import { ShareCard } from './ShareCard';
-import { dataService } from '../services/dataService';
 
 interface SubmissionDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   submission: ApplicationRecord | null;
-  onReset: () => void;
 }
 
 export const SubmissionDrawer: React.FC<SubmissionDrawerProps> = ({
   isOpen,
   onClose,
   submission,
-  onReset,
 }) => {
   if (!isOpen || !submission) return null;
 
@@ -75,21 +72,9 @@ export const SubmissionDrawer: React.FC<SubmissionDrawerProps> = ({
             </div>
           </div>
 
-          {/* Social share card */}
-          <ShareCard
-            userReferralCode={submission.userReferralCode}
-            applicantName={submission.fullName}
-          />
+          <ShareCard />
 
-          <div className="pt-2 flex items-center justify-between">
-            <button
-              onClick={onReset}
-              className="inline-flex items-center gap-1.5 text-xs text-neutral-500 hover:text-neutral-900 transition-colors cursor-pointer"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Submit another response (Demo reset)</span>
-            </button>
-
+          <div className="pt-2 flex justify-end">
             <button
               onClick={onClose}
               className="px-4 py-2 text-xs font-semibold text-white bg-[#141413] hover:bg-neutral-800 rounded-lg transition-colors cursor-pointer"

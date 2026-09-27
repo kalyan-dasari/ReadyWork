@@ -1,17 +1,14 @@
 import React from 'react';
 import { ApplicationRecord } from '../types';
 import { CheckCircle, ArrowRight } from 'lucide-react';
-import { ShareCard } from './ShareCard';
 import { InterestCounter } from './InterestCounter';
 
 interface SuccessScreenProps {
-  record: ApplicationRecord;
   currentCount: number;
   onClose: () => void;
 }
 
 export const SuccessScreen: React.FC<SuccessScreenProps> = ({
-  record,
   currentCount,
   onClose,
 }) => {
@@ -46,12 +43,6 @@ export const SuccessScreen: React.FC<SuccessScreenProps> = ({
           We review each application on a rolling basis. Because projects involve real team deliverables, we select a limited number of students per intake to ensure genuine mentorship and project ownership.
         </p>
       </div>
-
-      {/* Social Sharing Moment */}
-      <ShareCard
-        userReferralCode={record.userReferralCode}
-        applicantName={record.fullName}
-      />
 
       {/* Bottom Dismiss / Review CTA */}
       <div className="pt-2">
