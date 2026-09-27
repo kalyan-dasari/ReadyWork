@@ -41,10 +41,6 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 | `npm run lint` | Run the TypeScript compiler without emitting files |
 | `npm run clean` | Remove generated build/server files |
 
-## Configuration
-
-Copy `.env.example` to `.env.local` when environment-specific values are needed. The template documents `GEMINI_API_KEY` and `APP_URL`; the current application flow stores demo submissions in the browser and does not require a key for local development.
-
 ## Data and Privacy
 
 Applications, the interest count offset, and referral statistics are stored in the current browser's `localStorage`. This is suitable for demos and prototypes, not production data collection. Use the reset action in the submission drawer to clear the current browser session.

@@ -1,6 +1,0 @@
-{
-  "name": "Are You Ready To Work?",
-  "description": "A student-focused platform selecting students ready for real-world work experience.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
