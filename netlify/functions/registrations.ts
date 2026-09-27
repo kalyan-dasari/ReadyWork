@@ -1,4 +1,5 @@
 import { neon } from '@neondatabase/serverless';
+import type { NeonQueryFunction } from '@neondatabase/serverless';
 
 const BASE_INTEREST_COUNT = 1284;
 
@@ -13,7 +14,7 @@ const jsonResponse = (body: Record<string, unknown>, status = 200) =>
     headers: { 'content-type': 'application/json' },
   });
 
-const getCount = async (sql: ReturnType<typeof neon>) => {
+const getCount = async (sql: NeonQueryFunction<false, false>) => {
   const rows = await sql`SELECT COUNT(*)::int AS count FROM registrations`;
   return BASE_INTEREST_COUNT + Number(rows[0]?.count || 0);
 };
