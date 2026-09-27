@@ -1,12 +1,11 @@
 import React from 'react';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { InterestCounter } from './InterestCounter';
 import { motion } from 'motion/react';
 
 interface HeroProps {
   interestCount: number;
   onOpenApply: () => void;
-  referralCode?: string | null;
   hasApplied: boolean;
   onViewSubmission: () => void;
 }
@@ -14,7 +13,6 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({
   interestCount,
   onOpenApply,
-  referralCode,
   hasApplied,
   onViewSubmission,
 }) => {
@@ -38,16 +36,9 @@ export const Hero: React.FC<HeroProps> = ({
           transition={{ duration: 0.3 }}
           className="mb-4 sm:mb-6"
         >
-          {referralCode ? (
-            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-blue-600 bg-blue-50/80 px-3 py-1 rounded border border-blue-200/60">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Someone thinks you're ready to work</span>
-            </div>
-          ) : (
-            <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-neutral-500">
-              Student Work Experience Program
-            </span>
-          )}
+          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-neutral-500">
+            Student Work Experience Program
+          </span>
         </motion.div>
 
         {/* Main Heading */}
@@ -58,19 +49,9 @@ export const Hero: React.FC<HeroProps> = ({
           className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-[-0.035em] text-[#141413] leading-[1.05] sm:leading-[1.02] mb-6 sm:mb-8"
           style={{ textWrap: 'balance' }}
         >
-          {referralCode ? (
-            <>
-              ARE YOU READY
-              <br />
-              <span className="text-neutral-900">TO WORK?</span>
-            </>
-          ) : (
-            <>
-              ARE YOU
-              <br />
-              READY TO WORK?
-            </>
-          )}
+          ARE YOU
+          <br />
+          READY TO WORK?
         </motion.h1>
 
         {/* Supporting Line & Secondary Line */}
@@ -100,7 +81,7 @@ export const Hero: React.FC<HeroProps> = ({
               onClick={onViewSubmission}
               className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 text-base font-semibold text-white bg-[#141413] hover:bg-neutral-800 active:scale-[0.98] rounded-xl transition-all shadow-md shadow-black/10 cursor-pointer min-h-[48px] w-full sm:w-auto"
             >
-              <span>View Your Submission & Referrals</span>
+              <span>View Your Registration</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </button>
           ) : (

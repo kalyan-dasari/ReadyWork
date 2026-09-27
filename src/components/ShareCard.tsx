@@ -1,32 +1,22 @@
 import React, { useState } from 'react';
-import { Share2, Copy, Check, MessageSquare, ExternalLink } from 'lucide-react';
+import { Share2, Copy, Check, MessageSquare } from 'lucide-react';
 import { dataService } from '../services/dataService';
 
-interface ShareCardProps {
-  userReferralCode: string;
-  applicantName?: string;
-}
-
-export const ShareCard: React.FC<ShareCardProps> = ({
-  userReferralCode,
-}) => {
+export const ShareCard: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [shared, setShared] = useState(false);
 
-  // Construct absolute referral URL
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
-  const shareUrl = `${origin}/?ref=${encodeURIComponent(userReferralCode)}`;
+  const shareUrl = `${origin}/`;
 
   const shareTitle = 'ARE YOU READY TO WORK?';
   const shareText = `Are you actually ready to work?\nI just applied for a student work-experience opportunity.\nYou should check it out:`;
-
-  const stats = dataService.getReferralStats(userReferralCode);
 
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
-      dataService.trackLinkCopied(userReferralCode);
+      dataService.trackLinkCopied();
       setTimeout(() => setCopied(false), 2500);
     } catch (e) {
       console.error('Failed to copy', e);
@@ -34,7 +24,7 @@ export const ShareCard: React.FC<ShareCardProps> = ({
   };
 
   const handleNativeShare = async () => {
-    dataService.trackShare('web_share_api', userReferralCode);
+    dataService.trackShare('web_share_api');
     if (navigator.share) {
       try {
         await navigator.share({
@@ -56,7 +46,7 @@ export const ShareCard: React.FC<ShareCardProps> = ({
   };
 
   const handleWhatsAppShare = () => {
-    dataService.trackShare('whatsapp', userReferralCode);
+    dataService.trackShare('whatsapp');
     const text = encodeURIComponent(`${shareText}\n${shareUrl}`);
     window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank', 'noopener,noreferrer');
   };
@@ -139,27 +129,9 @@ export const ShareCard: React.FC<ShareCardProps> = ({
         )}
       </div>
 
-      {/* Referral Performance / Impact Tracker */}
-      <div className="mt-4 pt-3.5 border-t border-neutral-200/60 flex items-center justify-between text-xs text-neutral-500">
-        <div className="flex items-center gap-3">
-          <span>
-            <strong className="text-neutral-800 font-semibold tabular-nums">
-              {stats.visits}
-            </strong>{' '}
-            link clicks
-          </span>
-          <span className="text-neutral-300">·</span>
-          <span>
-            <strong className="text-neutral-800 font-semibold tabular-nums">
-              {stats.applications}
-            </strong>{' '}
-            applied via you
-          </span>
-        </div>
-        <span className="text-[11px] font-mono text-neutral-400">
-          ref:{userReferralCode}
-        </span>
-      </div>
+      <p className="mt-4 pt-3.5 border-t border-neutral-200/60 text-xs text-neutral-500">
+        Share the main application link so interested students can register.
+      </p>
     </div>
   );
 };

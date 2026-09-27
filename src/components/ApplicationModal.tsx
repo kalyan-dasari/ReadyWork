@@ -12,14 +12,12 @@ import { analytics } from '../services/analytics';
 interface ApplicationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  referralCode?: string | null;
   existingSubmission?: ApplicationRecord | null;
 }
 
 export const ApplicationModal: React.FC<ApplicationModalProps> = ({
   isOpen,
   onClose,
-  referralCode,
   existingSubmission,
 }) => {
   const [step, setStep] = useState<1 | 2 | 3 | 4>(existingSubmission ? 4 : 1);
@@ -40,7 +38,6 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
     workInterests: [],
     experienceGoals: [],
     readinessLevel: 'ready_to_contribute',
-    referralCode: referralCode || undefined,
   });
 
   useEffect(() => {
@@ -54,7 +51,7 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
     if (isOpen) {
       document.body.style.overflow = 'hidden';
       if (!existingSubmission && step === 1) {
-        analytics.track('application_started', { referralCode });
+        analytics.track('application_started');
       }
     } else {
       document.body.style.overflow = '';
@@ -62,7 +59,7 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isOpen, existingSubmission, referralCode]);
+  }, [isOpen, existingSubmission]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -101,7 +98,6 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
       experienceGoals: formData.experienceGoals || ['Real project experience'],
       otherExperienceGoal: formData.otherExperienceGoal,
       readinessLevel,
-      referralCode: referralCode || undefined,
     };
 
     try {

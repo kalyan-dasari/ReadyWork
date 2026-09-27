@@ -24,19 +24,9 @@ export default function App() {
   const [userSubmission, setUserSubmission] = useState<ApplicationRecord | null>(
     dataService.getCurrentUserSubmission()
   );
-  const [referralCode, setReferralCode] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check URL parameters for referral tracking
-    const searchParams = new URLSearchParams(window.location.search);
-    const ref = searchParams.get('ref');
-    if (ref) {
-      setReferralCode(ref);
-      dataService.trackReferralVisit(ref);
-    }
-
     analytics.track('page_view', {
-      referral: ref || undefined,
       path: window.location.pathname,
     });
 
@@ -52,14 +42,8 @@ export default function App() {
   }, []);
 
   const handleOpenApply = () => {
-    analytics.track('interest_button_clicked', { referralCode });
+    analytics.track('interest_button_clicked');
     setIsApplyOpen(true);
-  };
-
-  const handleResetDemo = () => {
-    dataService.resetUserSession();
-    setUserSubmission(null);
-    setIsDrawerOpen(false);
   };
 
   return (
@@ -77,7 +61,6 @@ export default function App() {
         <Hero
           interestCount={interestCount}
           onOpenApply={handleOpenApply}
-          referralCode={referralCode}
           hasApplied={!!userSubmission}
           onViewSubmission={() => setIsDrawerOpen(true)}
         />
@@ -107,7 +90,6 @@ export default function App() {
       <ApplicationModal
         isOpen={isApplyOpen}
         onClose={() => setIsApplyOpen(false)}
-        referralCode={referralCode}
         existingSubmission={userSubmission}
       />
 
@@ -116,7 +98,6 @@ export default function App() {
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
         submission={userSubmission}
-        onReset={handleResetDemo}
       />
     </div>
   );

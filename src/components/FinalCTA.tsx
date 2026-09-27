@@ -40,7 +40,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({
               onClick={onViewSubmission}
               className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-white bg-[#141413] hover:bg-neutral-800 rounded-xl transition-all shadow-md cursor-pointer w-full sm:w-auto"
             >
-              <span>View Your Submission & Referrals</span>
+              <span>View Your Registration</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           ) : (
