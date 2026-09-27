@@ -15,11 +15,11 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="sticky top-0 z-40 w-full bg-[#FAFAF9]/90 backdrop-blur-md border-b border-black/[0.06] transition-colors">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-4">
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2 sm:gap-4">
         {/* Zone 1: Single text element wordmark */}
         <a
           href="/"
-          className="text-sm sm:text-base font-bold tracking-tight text-[#141413] hover:opacity-80 transition-opacity whitespace-nowrap"
+          className="min-w-0 flex-1 truncate text-xs sm:text-base font-bold tracking-tight text-[#141413] hover:opacity-80 transition-opacity"
         >
           ARE YOU READY TO WORK?
         </a>
@@ -46,7 +46,7 @@ export const Header: React.FC<HeaderProps> = ({
           ) : (
             <button
               onClick={onOpenApply}
-              className="px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs font-semibold text-white bg-[#141413] hover:bg-neutral-800 active:scale-[0.98] rounded-md transition-all whitespace-nowrap shadow-sm cursor-pointer"
+              className="shrink-0 px-2.5 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs font-semibold text-white bg-[#141413] hover:bg-neutral-800 active:scale-[0.98] rounded-md transition-all whitespace-nowrap shadow-sm cursor-pointer"
             >
               I'M INTERESTED
             </button>
