@@ -44,4 +44,20 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Data and Privacy
 
-Applications and the registration count are stored in the current browser's `localStorage`. One browser device can register once. This is suitable for demos and prototypes, not production data collection; a shared count across all students still requires a backend database.
+Registrations are submitted to the Netlify Function at `/.netlify/functions/registrations` and stored in Neon Postgres. The browser keeps a device identifier in `localStorage` so one browser device is counted once. The database enforces the same rule with a unique `device_id`.
+
+## Neon and Netlify Setup
+
+The repository includes [db/schema.sql](db/schema.sql), [neon.ts](neon.ts), and a server-side Netlify Function. To connect the provided Neon project:
+
+```bash
+npm i -g neon@latest
+neon login
+neon skills -y
+neon mcp -y
+neon link --project-id weathered-dream-73192753 --branch production -y
+neon config init
+neon deploy
+```
+
+Run the SQL in `db/schema.sql` once in the linked Neon project's SQL Editor. Then add the Neon connection string as a Netlify environment variable named `DATABASE_URL`. Do not put this value in frontend code or commit it to git. Trigger a new Netlify deploy after setting the variable.
