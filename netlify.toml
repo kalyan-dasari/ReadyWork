@@ -3,6 +3,9 @@
   publish = "dist"
   functions = "netlify/functions"
 
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS = "ADMIN_USERNAME"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
