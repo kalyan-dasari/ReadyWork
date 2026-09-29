@@ -11,7 +11,7 @@ type AdminRegistration = {
 const ADMIN_ENDPOINT = '/.netlify/functions/registrations-admin';
 
 export const AdminPage: React.FC = () => {
-  const [username, setUsername] = useState('admin');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [auth, setAuth] = useState<string | null>(null);
   const [registrations, setRegistrations] = useState<AdminRegistration[]>([]);

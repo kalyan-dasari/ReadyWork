@@ -67,8 +67,8 @@ Run the SQL in `db/schema.sql` once in the linked Neon project's SQL Editor. The
 The protected admin page is available at `/admin`. Add these server-only Netlify environment variables:
 
 ```text
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=admin@123
+ADMIN_USERNAME=<your-admin-username>
+ADMIN_PASSWORD=<your-admin-password>
 ```
 
-Then open `https://your-site.netlify.app/admin` and sign in. Change the requested starter password before sharing the site publicly. The admin page loads registrations through an authenticated Netlify Function and does not expose the Neon connection string to the browser.
+Then open `https://your-site.netlify.app/admin` and sign in. Keep these values only in Netlify environment variables. The admin page loads registrations through an authenticated Netlify Function and does not expose the Neon connection string to the browser.
