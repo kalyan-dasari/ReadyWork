@@ -61,3 +61,14 @@ neon deploy
 ```
 
 Run the SQL in `db/schema.sql` once in the linked Neon project's SQL Editor. Then add the Neon connection string as a Netlify environment variable named `DATABASE_URL`. Do not put this value in frontend code or commit it to git. Trigger a new Netlify deploy after setting the variable.
+
+## Admin Registrations
+
+The protected admin page is available at `/admin`. Add these server-only Netlify environment variables:
+
+```text
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin@123
+```
+
+Then open `https://your-site.netlify.app/admin` and sign in. Change the requested starter password before sharing the site publicly. The admin page loads registrations through an authenticated Netlify Function and does not expose the Neon connection string to the browser.
