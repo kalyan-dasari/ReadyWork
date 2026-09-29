@@ -13,6 +13,7 @@ import { FinalCTA } from './components/FinalCTA';
 import { Footer } from './components/Footer';
 import { ApplicationModal } from './components/ApplicationModal';
 import { SubmissionDrawer } from './components/SubmissionDrawer';
+import { AdminPage } from './components/AdminPage';
 import { dataService } from './services/dataService';
 import { analytics } from './services/analytics';
 import { ApplicationRecord } from './types';
@@ -26,6 +27,8 @@ export default function App() {
   );
 
   useEffect(() => {
+    if (window.location.pathname === '/admin') return;
+
     void dataService.refreshInterestCount();
 
     analytics.track('page_view', {
@@ -47,6 +50,10 @@ export default function App() {
     analytics.track('interest_button_clicked');
     setIsApplyOpen(true);
   };
+
+  if (window.location.pathname === '/admin') {
+    return <AdminPage />;
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAFAF9] text-[#141413] font-sans antialiased selection:bg-neutral-900 selection:text-white">
