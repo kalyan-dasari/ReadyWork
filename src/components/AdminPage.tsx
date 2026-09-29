@@ -26,6 +26,11 @@ export const AdminPage: React.FC = () => {
       const response = await fetch(ADMIN_ENDPOINT, {
         headers: { authorization: `Basic ${credentials}` },
       });
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        throw new Error('Admin service is not deployed yet. Redeploy the latest Netlify build and try again.');
+      }
+
       const result = (await response.json()) as {
         registrations?: AdminRegistration[];
         error?: string;
@@ -120,6 +125,9 @@ export const AdminPage: React.FC = () => {
                 <th className="px-4 py-3">College</th>
                 <th className="px-4 py-3">Year</th>
                 <th className="px-4 py-3">Skill</th>
+                <th className="px-4 py-3">Portfolio</th>
+                <th className="px-4 py-3">Work interests</th>
+                <th className="px-4 py-3">Goals</th>
                 <th className="px-4 py-3">Readiness</th>
               </tr>
             </thead>
@@ -135,6 +143,15 @@ export const AdminPage: React.FC = () => {
                     <td className="px-4 py-3">{student.college}</td>
                     <td className="whitespace-nowrap px-4 py-3">{student.year}</td>
                     <td className="px-4 py-3">{student.primarySkill}</td>
+                    <td className="max-w-56 break-all px-4 py-3">
+                      {student.portfolioUrl ? (
+                        <a className="text-blue-700 underline" href={student.portfolioUrl} target="_blank" rel="noreferrer">
+                          {student.portfolioUrl}
+                        </a>
+                      ) : '—'}
+                    </td>
+                    <td className="max-w-56 px-4 py-3">{student.workInterests.join(', ')}</td>
+                    <td className="max-w-56 px-4 py-3">{student.experienceGoals.join(', ')}</td>
                     <td className="whitespace-nowrap px-4 py-3">{student.readinessLevel.replace(/_/g, ' ')}</td>
                   </tr>
                 );
